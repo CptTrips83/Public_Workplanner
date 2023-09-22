@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SuPausenController!{% endblock %}
+
+{% block body %}
+
+{% for message in app.flashes('su_pause_edit') %}
+    <div class="alert alert-success">
+        <h3>{{ message }}</h3>
+    </div>
+{% endfor %}
+<br>
+<div class="container">
+    Pausenzeiten
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Start-Datum</td>
+                <td>End-Datum</td>
+                <td>Gesamte Zeit</td>
+                <td>Kategorie</td>
+                <td>Optionen</td>
+            </tr>        
+        </thead>
+        {% for pause in pauses %}
+            <tbody>
+                <tr>
+                    <td>{{pause.id}}</td>
+                    <td>{{pause.startDatum|date('d.m.Y H:i:s')}}</td>
+                    <td>{% if pause.endeDatum %}{{pause.endeDatum|date('d.m.Y H:i:s')}}{% endif %}</td>
+                    <td>{{(pause.pausenZeit / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{pause.Kategorie.name}}</td>
+                    <td>
+                        <a href="{{path('su_pausenzeiten.edit', {id: pause.id})}}">Bearbeiten</a>
+                        <a href="{{path('su_pausenzeiten.archivieren', {id: pause.id})}}">Archivieren</a>
+                    </td>
+                </tr>        
+            </tbody>    
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

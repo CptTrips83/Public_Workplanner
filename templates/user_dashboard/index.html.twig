@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+    <br>
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <th>Mitarbeiter</th>
+                <th>Status Stempeluhr</th>
+                <th>Status</th>
+            </thead>
+            <tbody id="tableDashboard">
+                
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
+{% block footer %}
+    <script language="javascript">
+		var routeDashboard = "{{path('user_dashboard_ajax')}}";
+        //getData();
+        setInterval(getData, 2000);
+	</script>
+{% endblock %}
+	

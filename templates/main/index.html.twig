@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MainController!{% endblock %}
+
+{% block body %}
+{% if app.user %}
+{{app.user.getId()}}
+{% endif %}
+{% endblock %}

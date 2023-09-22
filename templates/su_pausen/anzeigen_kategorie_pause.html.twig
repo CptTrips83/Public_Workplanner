@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+{% for message in app.flashes('su_change_aktiv_kategorie') %}
+    <div class="alert alert-success">
+        <h3>{{ message }}</h3>
+    </div>
+{% endfor %}
+<br>
+<div class="container">
+    Pausen-Kategorien<br>
+    <a href="{{path('su_pausenzeiten.create_kategorie')}}">Kategorie anlegen</a>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Name</td>
+                <td>Bezahlt</td>
+                <td>Aktiv</td>
+                <td>Optionen</td>
+            </tr>        
+        </thead>
+        {% for pauseKategorie in pauseKategories %}
+            <tbody>
+                <tr>
+                    <td>{{pauseKategorie.id}}</td>
+                    <td>{{pauseKategorie.name}}</td>
+                    <td>{% if pauseKategorie.bezahlt %}Ja{% else %}Nein{% endif %}</td>
+                    <td>{% if pauseKategorie.aktiv %}Ja{% else %}Nein{% endif %}</td>
+                    <td>
+                        {% if pauseKategorie.aktiv %}
+                            <a href="{{path('su_pausenzeiten.change_aktiv_kategorie', {id: pauseKategorie.id})}}">Deaktivieren</a>
+                        {% else %}
+                            <a href="{{path('su_pausenzeiten.change_aktiv_kategorie', {id: pauseKategorie.id})}}">Aktivieren</a>
+                        {% endif %}
+                    </td>
+                </tr>        
+            </tbody>    
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

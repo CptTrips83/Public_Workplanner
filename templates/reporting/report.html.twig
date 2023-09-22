@@ -1,0 +1,39 @@
+{% block body %}
+<!-- Stylesheets -->
+	<link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}"/>
+	<link rel="stylesheet" href="{{asset('css/font-awesome.min.css')}}"/>
+	<link rel="stylesheet" href="{{asset('css/owl.carousel.min.css')}}"/>
+	<link rel="stylesheet" href="{{asset('css/slicknav.min.css')}}"/>
+
+	<!-- Main Stylesheets -->
+	<link rel="stylesheet" href="{{asset('css/style.css')}}"/>
+<br>
+<div class="container">
+    <h5>Reporting User Stempelzeiten für den Zeitraum {{startDatum|date('d.m.Y H:i:s')}} bis {{endeDatum|date('d.m.Y H:i:s')}}</h5>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>Benutzer</td>
+                <td>Arbeitszeit</td>
+                <td>Urlaubszeit</td>
+                <td>Krankzeit</td>
+                <td>Bezahlte Pause</td>
+                <td>Unbezahlte Pause</td>
+            </tr>        
+        </thead>
+        {% for data in reportData %}
+            <tbody>
+                <tr>
+                    <td>{{data.nachname}}, {{data.vorname}} ({{data.userId}})</td>
+                    <td>{{(data.arbeitszeit / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{(data.urlaubszeit / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{(data.krankzeit / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{(data.bezahltepause / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{(data.unbezahltepause / 60 / 60)|number_format(2, ',', '.')}}</td>
+                </tr>        
+            </tbody>    
+        {% endfor %}
+
+</div>
+{% endblock %}

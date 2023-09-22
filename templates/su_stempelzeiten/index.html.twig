@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+
+{% for message in app.flashes('su_edit') %}
+    <div class="alert alert-success">
+        <h3>{{ message }}</h3>
+    </div>
+{% endfor %}
+<br>
+<div class="container">
+    Stempelzeiten für {{user.vorname}} {{user.nachname}}({{user.id}}) für den Zeitraum {{startDatum|date('d.m.Y H:i:s')}} bis {{endeDatum|date('d.m.Y H:i:s')}}.
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Start-Datum</td>
+                <td>End-Datum</td>
+                <td>Bezahlte Pause</td>
+                <td>Unbezahlte Pause</td>
+                <td>Arbeitszeit</td>
+                <td>Gesamte Zeit</td>
+                <td>Kategorie</td>
+                <td>Optionen</td>
+            </tr>        
+        </thead>
+        {% for workEntry in workEntries %}
+            <tbody>
+                <tr>
+                    <td>{{workEntry.id}}</td>
+                    <td>{{workEntry.startDatum|date('d.m.Y H:i:s')}}</td>
+                    <td>{% if workEntry.endeDatum %}{{workEntry.endeDatum|date('d.m.Y H:i:s')}}{% endif %}</td>
+                    <td>{{(workEntry.pausenZeitBezahlt / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{(workEntry.pausenZeitUnbezahlt / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{(workEntry.arbeitsZeit / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{(workEntry.summeGesamt / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{workEntry.Kategorie.name}}</td>
+                    <td>
+                        <a href="{{path('su_pausenzeiten.anzeigen', {id: workEntry.id})}}">Pausen Anzeigen</a><br>
+                        <a href="{{path('su_pausenzeiten.erstellen', {id: workEntry.id})}}">Pause erstellen</a><br>
+                        <a href="{{path('su_stempelzeiten.edit', {id: workEntry.id})}}">Bearbeiten</a><br>
+                        <a href="{{path('su_stempelzeiten.archivieren', {id: workEntry.id})}}">Archivieren</a>
+                    </td>
+                </tr>        
+            </tbody>    
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

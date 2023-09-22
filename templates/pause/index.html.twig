@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<br>
+<div class="container">
+    {% if workEntry|default() %}
+        {% if AktivePause|default() %}
+            <h3>{{AktivePause.Kategorie.name}} ist aktiv. Start: {{AktivePause.startDatum|date('d.m.Y H:i:s')}}</h3> <br>
+            <a class="btn btn-lg btn-primary" href="{{path('pause.stop')}}">Pause Stoppen</a>           
+        {% else %}
+            <h3>Es ist keine Pause aktiv.</h3><br>
+            <a class="btn btn-lg btn-primary" href={{path('pause.start')}}>Pause Starten</a> 
+        {% endif %}<br><br>
+        Hier sind deine Pausen
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Start-Datum</td>
+                    <td>End-Datum</td>
+                    <td>Gesamte Zeit</td>
+                    <td>Kategorie</td>
+                </tr>        
+            </thead>
+            {% for pause in workEntry.pauses %}
+                <tbody>
+                    <tr>
+                        <td>{{pause.id}}</td>
+                        <td>{{pause.startDatum|date('d.m.Y H:i:s')}}</td>
+                        <td>{% if pause.endeDatum %}{{pause.endeDatum|date('d.m.Y H:i:s')}}{% endif %}</td>
+                        <td>{{(pause.pausenZeit / 60 / 60)|number_format(2, ',', '.')}}</td>
+                        <td>{{pause.Kategorie.name}}</td>
+                    </tr>        
+                </tbody>    
+            {% endfor %}
+        </table>
+    {% endif %}
+</div>
+
+{% endblock %}

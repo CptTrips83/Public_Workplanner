@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<br>
+<div class="container">
+
+    {% if workEntry %}        
+        Hallo {{app.user.vorname}} {{app.user.nachname}}. Du bist seit dem {{workEntry.startDatum|date('d.m.Y')}} 
+        um {{workEntry.startDatum|date('H:i:s')}} eingestempelt.  
+    {% else %}
+        Hallo {{app.user.vorname}} {{app.user.nachname}}. Du bist aktuell nicht eingestempelt.  
+    {% endif %}
+
+</div>
+
+{% endblock %}

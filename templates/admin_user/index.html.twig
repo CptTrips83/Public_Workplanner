@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<br>
+<div class="container">
+    <h5>Benutzerverwaltung</h5>
+    <br>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Benutzername</td>
+                <td>Nachname</td>
+                <td>Vorname</td>
+            </tr>
+        </thead>
+
+{% for user in users %}
+
+    <tr>
+        <td>{{user.id}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.nachname}}</td>
+        <td>{{user.vorname}}</td>
+    </tr>
+
+{% endfor %}
+
+    </table>
+</div>
+{% endblock %}

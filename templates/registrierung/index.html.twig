@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<br>
+<div class="container">
+    <h2>Registrierung</h2>
+    <br>
+        {% if errorMsg != '' %}
+            <div class="alert alert-danger">{{errorMsg}}</div>
+        {% endif %}
+    {{form(regform)}}
+</div>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{% endblock %}
+
+{% block body %}
+<br>
+<div class="container">
+    Hallo {{app.user.vorname}} {{app.user.nachname}}. Hier sind Ihre Stempelzeiten der letzten {{abgefragteTage}} Tage.
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <td>ID</td>
+                <td>Start-Datum</td>
+                <td>End-Datum</td>
+                <td>Bezahlte Pause</td>
+                <td>Unbezahlte Pause</td>
+                <td>Arbeitszeit</td>
+                <td>Gesamte Zeit</td>
+                <td>Kategorie</td>
+            </tr>        
+        </thead>
+        {% for workEntry in workEntries %}
+            <tbody>
+                <tr>
+                    <td>{{workEntry.id}}</td>
+                    <td>{{workEntry.startDatum|date('d.m.Y H:i:s')}}</td>
+                    <td>{% if workEntry.endeDatum %}{{workEntry.endeDatum|date('d.m.Y H:i:s')}}{% endif %}</td>
+                    <td>{{(workEntry.pausenZeitBezahlt / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{(workEntry.pausenZeitUnbezahlt / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{(workEntry.arbeitsZeit / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{(workEntry.summeGesamt / 60 / 60)|number_format(2, ',', '.')}}</td>
+                    <td>{{workEntry.Kategorie.name}}</td>
+                </tr>        
+            </tbody>    
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}
