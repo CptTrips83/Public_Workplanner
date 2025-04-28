@@ -40,8 +40,12 @@ class StempelzeitenController extends AbstractController
     }
 
     #[Route('/einstempeln', name: 'einstempeln')]
-    public function einstempeln(#[CurrentUser] User $user, WorkEntryRepository $workEntryRepository, WorkEntryKategorieRepository $kategorieRepository, EntityManagerInterface $entityManager): Response
-    {
+    public function einstempeln(
+        #[CurrentUser] User $user,
+        WorkEntryRepository $workEntryRepository,
+        WorkEntryKategorieRepository $kategorieRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
         $workEntryCheck = $workEntryRepository->findOneBy([
             'user' => $user->getId(),
             'endeDatum' => null
@@ -70,12 +74,12 @@ class StempelzeitenController extends AbstractController
     
 
     #[Route('/ausstempeln', name: 'ausstempeln')]
-    public function ausstempeln(#[CurrentUser] User $user, WorkEntryRepository $workEntryRepository, EntityManagerInterface $entityManager): Response
-    {
-        if(!$user)
-        {
-            return $this->redirect($this->generateUrl('app_login'));
-        }
+    public function ausstempeln(
+        #[CurrentUser] User $user,
+        WorkEntryRepository $workEntryRepository,
+        EntityManagerInterface $entityManager
+    ): Response {
+
 
         $workEntry = $workEntryRepository->findOneBy([
             'user' => $user->getId(),

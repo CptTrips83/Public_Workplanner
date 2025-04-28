@@ -21,6 +21,8 @@ class PasswortaendernController extends AbstractController
     #[Route('/passwortaendern', name: 'app_passwortaendern')]
     public function aendern(#[CurrentUser] User $user, UserRepository $userRepository, Request $request, EntityManagerInterface $entityManager, WorkEntryRepository $workEntryRepository, UserPasswordHasherInterface $passEncoder): Response
     {
+
+
         $workEntry = $workEntryRepository->findOneBy([
             'user' => $user->getId(),
             'endeDatum' => null
@@ -47,7 +49,15 @@ class PasswortaendernController extends AbstractController
         $pwform->handleRequest($request);
 
         if($pwform->isSubmitted()) {
-            
+
+            if($user->getUsername() == "gast") {
+                $this->addFlash('passwortaendern','Das Passwort des Gast-Nutzers kann nicht geändert werden!');
+                return $this->render('passwortaendern/index.html.twig', [
+                    'pwform' => $pwform,
+                    'workEntry' => $workEntry
+                ]);
+            }
+
             $data = $pwform->getData();            
 
             if(!$passEncoder->isPasswordValid($user, $data['oldpassword']))
